@@ -18,7 +18,7 @@ vec3<float> color(ray<float>& r, hitable<float> *world){
 }
 
 int main(){
-	int factor = 2;
+	int factor = 6;
 	int nx = 200 * factor;
 	int ny = 100 * factor;
 	cout << "P3\n" << nx << " " << ny << "\n255\n";
