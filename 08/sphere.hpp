@@ -7,9 +7,10 @@ template <typename T>
 class sphere : public hitable<T> {
 	public:
 		sphere() {};
-		sphere(vec3<T> cen, T r) : center(cen), radius(r) {};
+		sphere(vec3<T> cen, T r, material<T>* mat_) : center(cen), radius(r), mat_ptr(mat_) {};
 		virtual bool hit(const ray<T>& r, T tmin, T tmax, hit_record<T>& rec) const;
 		vec3<T> center;
+		material<T>* mat_ptr;
 		T radius;
 };
 
@@ -26,6 +27,7 @@ bool sphere<T>::hit(const ray<T>& r, T t_min, T t_max, hit_record<T>& rec) const
 			rec.t = temp;
 			rec.p = r.point_at_parameter(rec.t);
 			rec.normal = (rec.p - center) / radius;
+			rec.mat_ptr = mat_ptr;
 			return true;
 		}
 		temp = (-b + sqrt(discriminant))/a;
@@ -33,6 +35,7 @@ bool sphere<T>::hit(const ray<T>& r, T t_min, T t_max, hit_record<T>& rec) const
 			rec.t = temp;
 			rec.p = r.point_at_parameter(rec.t);
 			rec.normal = (rec.p - center) / radius;
+			rec.mat_ptr = mat_ptr;
 			return true;
 		}
 	}

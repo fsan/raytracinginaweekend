@@ -1,15 +1,17 @@
 #ifndef HITABLEH
 #define HITABLEH
 
-#include "material.hpp"
 #include "ray.hpp"
+
+template <class T>
+class material;
 
 template <typename T>
 struct hit_record {
 	T t;
 	vec3<T> p;
 	vec3<T> normal;
-	material* mat_ptr;
+	material<T>* mat_ptr;
 };
 
 template <typename T>
