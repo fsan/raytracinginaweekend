@@ -37,13 +37,19 @@ int main(){
 	int ns = 100;
 	cout << "P3\n" << nx << " " << ny << "\n255\n";
 
-	hitable<float> *list[2];
+	hitable<float> *list[4];
+
 	auto mat1 = new lambertian<float>(vec3<float>(0.8,0.3,0.3));
 	auto mat2 = new lambertian<float>(vec3<float>(0.8,0.8,0.0));
+	auto mat3 = new metal<float>(vec3<float>(0.8,0.6,0.2));
+	auto mat4 = new metal<float>(vec3<float>(0.8,0.8,0.8));
+
 	list[0] = new sphere<float>(vec3<float>(0,0,-1), 0.5, mat1);
 	list[1] = new sphere<float>(vec3<float>(0,-100.5,-1), 100, mat2);
+	list[2] = new sphere<float>(vec3<float>(-1,0,-1), 0.5, mat3);
+	list[3] = new sphere<float>(vec3<float>(+1,0,-1), 0.5, mat4);
 
-	hitable<float> *world = new hitable_list<float>(list,2);
+	hitable<float> *world = new hitable_list<float>(list,4);
 	camera<float> cam;
 
 	for(int j = ny-1 ; j > 0 ; j--){

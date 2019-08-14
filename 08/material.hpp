@@ -4,8 +4,6 @@
 #include "vec3.hpp"
 #include "hitable.hpp"
 
-//struct hit_record;
-
 template <typename T>
 vec3<T> random_in_unit_sphere(){
     vec3<T> p;
@@ -46,6 +44,22 @@ class lambertian : public material<T> {
 
 		vec3<T> albedo;
 
+};
+
+template <typename T>
+class metal : public material<T> {
+	public:
+		metal(const vec3<T>& a) : albedo(a) {}
+		bool scatter(const ray<T>& r_in,
+							 const hit_record<T>& rec,
+							 vec3<T>& attenuation,
+							 ray<T>& scattered) const {
+			vec3<T> reflected = reflect(unit_vector(r_in.direction()), rec.normal);
+			scattered = ray<T>(rec.p, reflected);
+			attenuation = albedo;
+			return (dot(scattered.direction(), rec.normal) > 0);
+		};
+		vec3<T> albedo;
 };
 
 #endif
