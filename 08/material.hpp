@@ -49,17 +49,18 @@ class lambertian : public material<T> {
 template <typename T>
 class metal : public material<T> {
 	public:
-		metal(const vec3<T>& a) : albedo(a) {}
+		metal(const vec3<T>& a, T f = (T)0) : albedo(a), fuzzy(f) { if(fuzzy > 1) fuzzy = 1;}
 		bool scatter(const ray<T>& r_in,
 							 const hit_record<T>& rec,
 							 vec3<T>& attenuation,
 							 ray<T>& scattered) const {
 			vec3<T> reflected = reflect(unit_vector(r_in.direction()), rec.normal);
-			scattered = ray<T>(rec.p, reflected);
+			scattered = ray<T>(rec.p, reflected + fuzzy*random_in_unit_sphere<T>());
 			attenuation = albedo;
 			return (dot(scattered.direction(), rec.normal) > 0);
 		};
 		vec3<T> albedo;
+		T fuzzy;
 };
 
 #endif
