@@ -1,5 +1,5 @@
-#ifndef VECH
-#define VECH
+#pragma once
+
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
@@ -202,4 +202,3 @@ template<typename T>
 inline vec3<T> unit_vector(vec3<T> v){
 	return v / v.length();
 }
-#endif

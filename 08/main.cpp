@@ -34,7 +34,7 @@ int main(){
 	int factor = 5;
 	int nx = 200 * factor;
 	int ny = 100 * factor;
-	int ns = 100;
+	int ns = 500;
 	cout << "P3\n" << nx << " " << ny << "\n255\n";
 
 	hitable<float> *list[4];

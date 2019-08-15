@@ -1,5 +1,4 @@
-#ifndef MATERIALH
-#define MATERIALH
+#pragma once
 
 #include "vec3.hpp"
 #include "hitable.hpp"
@@ -63,4 +62,3 @@ class metal : public material<T> {
 		T fuzzy;
 };
 
-#endif

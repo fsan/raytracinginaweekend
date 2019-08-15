@@ -1,5 +1,5 @@
-#ifndef RAYH
-#define RAYH
+#pragma once
+
 #include "vec3.hpp"
 
 template <typename T>
@@ -19,4 +19,3 @@ class ray {
 	vec3<T> B;
 };
 
-#endif

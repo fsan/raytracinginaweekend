@@ -1,5 +1,4 @@
-#ifndef SPHEREH
-#define SPHEREH
+#pragma once
 
 #include "hitable.hpp"
 
@@ -42,4 +41,3 @@ bool sphere<T>::hit(const ray<T>& r, T t_min, T t_max, hit_record<T>& rec) const
 	return false;
 };
 
-#endif

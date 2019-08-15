@@ -1,5 +1,4 @@
-#ifndef HITABLEH
-#define HITABLEH
+#pragma once
 
 #include "ray.hpp"
 
@@ -20,4 +19,3 @@ class hitable {
 		virtual bool hit(const ray<T>& r, T t_min, float t_max, hit_record<T>& rec) const = 0;
 };
 
-#endif

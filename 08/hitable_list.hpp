@@ -1,5 +1,4 @@
-#ifndef HITABLELISTH
-#define HITABLELISTH
+#pragma once
 
 #include "hitable.hpp"
 
@@ -31,4 +30,3 @@ bool hitable_list<T>::hit(const ray<T>& r, T t_min, T t_max, hit_record<T>& rec)
 	return hit_anything;
 };
 
-#endif

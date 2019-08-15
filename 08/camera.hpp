@@ -1,5 +1,4 @@
-#ifndef CAMERAH
-#define CAMERAH
+#pragma once
 
 #include "ray.hpp"
 
@@ -23,4 +22,3 @@ class camera {
 
 };
 
-#endif
