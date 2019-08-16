@@ -31,6 +31,13 @@ bool refract(const vec3<T>& v, const vec3<T>& n, float ni_over_nt, vec3<T>& refr
 }
 
 template <typename T>
+T schlick(T cosine, T ref_idx) {
+	T r0 = (1-ref_idx) / (1+ref_idx);
+	r0 = r0*r0;
+	return r0 + (1-r0)*pow((1 - cosine), 5);
+}
+
+template <typename T>
 class material {
 	public:
 		virtual bool scatter(const ray<T>& r_in,
@@ -77,7 +84,7 @@ class metal : public material<T> {
 template <typename T>
 class dieletric : public material<T> {
 	public:
-		dieletric(float ri) : ref_idx(ri) {}
+		dieletric(T ri) : ref_idx(ri) {}
 		bool scatter(const ray<T>& r_in,
 							 const hit_record<T>& rec,
 							 vec3<T>& attenuation,
@@ -88,24 +95,35 @@ class dieletric : public material<T> {
 			T ni_over_nt = (T)0.0;
 			attenuation = vec3<T>(1.0, 1.0, 1.0);
 			vec3<T> refracted;
+			T reflect_prob;
+			T cosine;
 			if(dot(r_in.direction(), rec.normal) > 0) {
 				outward_normal = -rec.normal;
 				ni_over_nt = ref_idx;
+				cosine = ref_idx * dot(r_in.direction(), rec.normal);
 			}
 			else {
 				outward_normal = rec.normal;
 				ni_over_nt = 1.0 / ref_idx;
+				cosine = -dot(r_in.direction(), rec.normal) / r_in.direction().length();
 			}
 			if (refract(r_in.direction(), outward_normal, ni_over_nt, refracted)) {
-				scattered = ray<T>(rec.p, refracted);
+				reflect_prob = schlick(cosine, ref_idx);
 			}
 			else {
 				scattered = ray<T>(rec.p, reflected);
-				return false;
+				reflect_prob = 1.0;
+			}
+			if(drand48() < reflect_prob) {
+				scattered = ray<T>(rec.p, reflected);
+			}
+			else {
+				scattered = ray<T>(rec.p, refracted);
 			}
 			return true;
 		}
 
 		T ref_idx;
+		vec3<T> attenuation = vec3<T>(1.0,1.0,1.0);
 };
 
