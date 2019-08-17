@@ -59,8 +59,8 @@ int main(){
 
 	auto mat3 = new metal<float>(vec3<float>(0.8,0.6,0.2), 0.2);
 	//auto mat4 = new metal<float>(vec3<float>(0.8,0.8,0.8), 0.1);
-	auto mat5 = new dieletric<float>(1.5);
-	auto mat6 = new dieletric<float>(1.5);
+	auto mat5 = new dieletric<float>(1.3);
+	auto mat6 = new dieletric<float>(0.51);
 
 	//float R = cos(M_PI/4);
 
@@ -68,14 +68,20 @@ int main(){
 	list[1] = new sphere<float>(vec3<float>(0,-100.5,0), 100, mat2);
 	list[2] = new sphere<float>(vec3<float>(+1,0,0), 0.5, mat3);
 	list[3] = new sphere<float>(vec3<float>(-1,0,0), 0.5, mat5);
-	list[4] = new sphere<float>(vec3<float>(-1,0,0), -0.45, mat6);
+	list[4] = new sphere<float>(vec3<float>(-1,0,0), -0.48, mat6);
 
 	hitable<float> *world = new hitable_list<float>(list,5);
-	camera<float> cam(vec3<float>(-2,2,1),  // lookfrom
-			  vec3<float>(0,0,0),  //lookat
+
+	vec3<float> lookfrom = vec3<float>(-2.8,1.6,-2.8);
+	vec3<float> lookat = vec3<float>(0,0,0);
+	camera<float> cam(lookfrom,             // lookfrom
+			  lookat,               //lookat
 			  vec3<float>(0,1,0),   //view-up
-			  45,                  //vfov
-			  float(nx)/float(ny));//aspect
+			  20,                   //vfov
+			  float(nx)/float(ny),  //aspect
+			  0.3,                  //aperture
+			  (lookfrom-lookat).length() //dist_to_focus
+		     );
 
 	srand(time(0));
 	for(int j = ny-1 ; j > 0 ; j--){
